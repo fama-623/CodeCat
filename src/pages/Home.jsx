@@ -41,7 +41,7 @@ function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {challenges.map((challenge) => (
               <div
-                className="border rounded p-6 bg-white"
+                className="border rounded p-6 glass box-shadow"
                 key={challenge.title}
               >
                 <h2 className="font-bold mb-4">{challenge.title}</h2>
@@ -51,7 +51,7 @@ function Home() {
                 >
                   Start Challenge
                 </button>
-                <p className="mt-4">
+                <p className="mt-4 text-right">
                   <span
                     className={
                       completedChallenges[challenge.title]
@@ -88,7 +88,7 @@ function Home() {
   };
 
   return (
-    <div className="h-screen flex flex-col p-20 justify-center">
+    <div className="h-screen flex flex-col p-20 justify-center background">
       <div className="mt-10">{renderCurrentChallenge()}</div>
     </div>
   );

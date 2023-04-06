@@ -48,7 +48,7 @@ export default function Challenge({ challenge, onComplete }) {
     <div>
       <div className="flex">
         <div className="w-1/3 p-4">
-          <h2 className="font-bold">{title}</h2>
+          <h2 className="font-bold text-lg mb-2">{title}</h2>
           <div className="description">{description}</div>
         </div>
         <div className="w-2/3 p-4">
@@ -59,6 +59,7 @@ export default function Challenge({ challenge, onComplete }) {
             onChange={handleCodeChange}
             name="code-editor"
             fontSize={16}
+            width="100%"
             showPrintMargin={true}
             showGutter={true}
             highlightActiveLine={true}
