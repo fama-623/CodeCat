@@ -4,22 +4,12 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-github";
 
-export default function SumChallenge() {
-  const challenge = {
-    title: "Sum of Two Numbers",
-    description:
-      "Write a function that takes two numbers as arguments and returns their sum.",
-    tests: [
-      { input: [1, 2], output: 3 },
-      { input: [10, -5], output: 5 },
-      { input: [0, 0], output: 0 },
-    ],
-  };
+export default function Challenge({challenge}) {
+  const { title, description, tests, startingCode } = challenge;
   const [code, setCode] = useState(
-    "function sum(a, b) {\n    // write code here\n}"
+    startingCode
   );
   const [result, setResult] = useState("");
-  const { title, description, tests } = challenge;
 
   const handleCodeChange = (value) => {
     setCode(value);
@@ -28,12 +18,12 @@ export default function SumChallenge() {
   const runCode = () => {
     let result = "";
     try {
-      const sum = eval(`(${code})`);
+      const palindrome = eval(`(${code})`);
       tests.forEach((test) => {
         const { input, output } = test;
-        const resultForTest = sum(...input);
+        const resultForTest = palindrome(input);
         if (resultForTest === output) {
-          result += `Test passed for input "${input}".\n`;
+          result += `Test passed for input "${input}"\n`;
         } else {
           result += `Test failed for input "${input}". Expected output: "${output}". Actual output: "${resultForTest}"\n`;
         }
@@ -45,10 +35,13 @@ export default function SumChallenge() {
   };
 
   return (
-    <div className="challenge">
-      <h2>{title}</h2>
-      <div className="description">{description}</div>
-      <div className="code-editor">
+  <div>
+    <div className="flex">
+      <div className="w-1/3 p-4">
+        <h2 className="font-bold">{title}</h2>
+        <div className="description">{description}</div>
+      </div>
+      <div className="w-2/3 p-4">
         <AceEditor
           mode="javascript"
           theme=""
@@ -66,11 +59,18 @@ export default function SumChallenge() {
             showLineNumbers: true,
             tabSize: 2,
           }}
-          style={{ width: "100%", height: "400px" }}
         />
+        <button className="bg-blue-500 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={runCode}>Run Code</button>
       </div>
-      <button onClick={runCode}>Run Code</button>
-      {result && <div className="result">{result}</div>}
+      </div>
+      <div className="mt-4 pb-4">
+          {result && (
+            <div className="text-sm">
+              <pre>{result}</pre>
+            </div>
+          )}
+        </div>
     </div>
   );
+  
 }
