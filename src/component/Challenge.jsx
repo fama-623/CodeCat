@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-github";
 
 export default function Challenge({ challenge }) {
-  const { title, description, tests, startingCode } = challenge;
+  const { title, description, tests, startingCode, type } = challenge;
   const [code, setCode] = useState(startingCode);
   const [result, setResult] = useState("");
   const [allTestsPassed, setAllTestsPassed] = useState(false);
@@ -18,11 +18,14 @@ export default function Challenge({ challenge }) {
   const runCode = () => {
     let passed = true;
     let result = "";
+    let resultForTest;
     try {
-      const palindrome = eval(`(${code})`);
+      const func = eval(`(${code})`);
       tests.forEach((test) => {
         const { input, output } = test;
-        const resultForTest = palindrome(input);
+        if (type == "arr") {
+          resultForTest = func(...input);
+        } else if(type == "str") resultForTest = func(input);
         if (resultForTest === output) {
           result += `Test passed for input "${input}"\n`;
         } else {
