@@ -5,7 +5,7 @@ import Confetti from "react-confetti";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-github";
 
-export default function Challenge({ challenge }) {
+export default function Challenge({ challenge, onComplete }) {
   const { title, description, tests, startingCode, type } = challenge;
   const [code, setCode] = useState(startingCode);
   const [result, setResult] = useState("");
@@ -25,7 +25,7 @@ export default function Challenge({ challenge }) {
         const { input, output } = test;
         if (type == "arr") {
           resultForTest = func(...input);
-        } else if(type == "str") resultForTest = func(input);
+        } else if (type == "str") resultForTest = func(input);
         if (resultForTest === output) {
           result += `Test passed for input "${input}"\n`;
         } else {
@@ -39,6 +39,9 @@ export default function Challenge({ challenge }) {
     }
     setResult(result);
     setAllTestsPassed(passed);
+    if (passed && onComplete) {
+      onComplete();
+    }
   };
 
   return (

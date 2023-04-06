@@ -1,9 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Challenge from "../component/Challenge";
-import { challenges } from "../data/challenges";
+import challenges from "../data/challenges";
 
 function Home() {
   const [currentChallenge, setCurrentChallenge] = useState(null);
+  const [completedChallenges, setCompletedChallenges] = useState({});
+
+  useEffect(() => {
+    const storedChallenges =
+      JSON.parse(localStorage.getItem("completedChallenges")) || {};
+    setCompletedChallenges(storedChallenges);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "completedChallenges",
+      JSON.stringify(completedChallenges)
+    );
+  }, [completedChallenges]);
 
   const handleChallengeClick = (challengeComponent) => {
     setCurrentChallenge(() => challengeComponent);
@@ -11,6 +25,10 @@ function Home() {
 
   const handleReturnToChallengeList = () => {
     setCurrentChallenge(null);
+  };
+
+  const handleChallengeComplete = (title) => {
+    setCompletedChallenges((prev) => ({ ...prev, [title]: true }));
   };
 
   const renderCurrentChallenge = () => {
@@ -23,8 +41,8 @@ function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {challenges.map((challenge) => (
               <div
-                key={challenge.title}
                 className="border rounded p-6 bg-white"
+                key={challenge.title}
               >
                 <h2 className="font-bold mb-4">{challenge.title}</h2>
                 <button
@@ -33,6 +51,19 @@ function Home() {
                 >
                   Start Challenge
                 </button>
+                <p className="mt-4">
+                  <span
+                    className={
+                      completedChallenges[challenge.title]
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }
+                  >
+                    {completedChallenges[challenge.title]
+                      ? "Completed"
+                      : "Not Complete"}
+                  </span>
+                </p>
               </div>
             ))}
           </div>
@@ -48,7 +79,10 @@ function Home() {
         >
           Return to Challenge List
         </button>
-        <Challenge challenge={currentChallenge} />
+        <Challenge
+          challenge={currentChallenge}
+          onComplete={() => handleChallengeComplete(currentChallenge.title)}
+        />
       </>
     );
   };
