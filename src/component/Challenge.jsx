@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-github";
 
 export default function Challenge({ challenge, onComplete }) {
-  const { title, description, tests, startingCode, type } = challenge;
+  const { title, description, note, tests, startingCode, type } = challenge;
   const [code, setCode] = useState(startingCode);
   const [result, setResult] = useState("");
   const [allTestsPassed, setAllTestsPassed] = useState(false);
@@ -23,13 +23,13 @@ export default function Challenge({ challenge, onComplete }) {
       const func = eval(`(${code})`);
       tests.forEach((test) => {
         const { input, output } = test;
-        if (type == "arr") {
+        if (type === "arr") {
           resultForTest = func(...input);
-        } else if (type == "str") resultForTest = func(input);
-        if (resultForTest === output) {
-          result += `Test passed for input "${input}"\n`;
+        } else if (type === "str") resultForTest = func(input);
+        if (JSON.stringify(output) === JSON.stringify(resultForTest)) {
+          result += `Test passed for input ${input}\n`;
         } else {
-          result += `Test failed for input "${input}". Expected output: "${output}". Actual output: "${resultForTest}"\n`;
+          result += `Test failed for input ${input} Expected output: ${output} Actual output: ${resultForTest}\n`;
           passed = false;
         }
       });
@@ -50,6 +50,7 @@ export default function Challenge({ challenge, onComplete }) {
         <div className="w-1/3 p-4">
           <h2 className="font-bold text-lg mb-2">{title}</h2>
           <div className="description">{description}</div>
+          <div className="mt-8 text-sm text-slate-800">{note}</div>
         </div>
         <div className="w-2/3 p-4">
           <AceEditor

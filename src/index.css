@@ -2,7 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  height: 100%;
+}
+
 .background {
+  height: 100%;
   background: radial-gradient(80.99% 100% at 50% 0%, #00ff0a 0%, #36008e 100%),
     radial-gradient(50% 123.47% at 50% 50%, #efe7c8 0%, #36008e 100%),
     linear-gradient(301.28deg, #ff006b 0%, #48dd9e 100%),
