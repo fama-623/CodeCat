@@ -38,7 +38,7 @@ function Home() {
             JavaScript Coding Challenges
           </h1>
           <p className="mb-10">{Object.keys(completedChallenges).length == 6 ? "Congrats. Here's your cat" : "Complete all the challenges to unlock a picture of a cat"}</p>
-          {Object.keys(completedChallenges).length == 6 ? <img className="mb-8" width="250" height="250" src="/cat.jpeg"/> : ""}
+          {Object.keys(completedChallenges).length == 8 ? <img className="mb-8" width="250" height="250" src="/cat.jpeg"/> : ""}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {challenges.map((challenge) => (
               <div
@@ -90,7 +90,7 @@ function Home() {
 
   return (
     <div className="h-screen flex lg:flex-col p-20 justify-center background">
-      <div className="mt-10 mb-10">{renderCurrentChallenge()}</div>
+      <div className="mt-10 mb-20">{renderCurrentChallenge()}</div>
     </div>
   );
 }
